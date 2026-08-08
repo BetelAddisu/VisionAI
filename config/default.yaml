@@ -1,0 +1,95 @@
+# Default application configuration for VisionAI.
+# These values target the minimum supported hardware:
+#   CPU: Intel Core i3-7020U (2 cores / 4 threads)
+#   RAM: 12 GB
+#   GPU: Intel UHD Graphics 620 (shared memory)
+#   Storage: HDD
+app:
+  name: "VisionAI"
+  version: "0.1.0"
+  # Base data directory. Projects, cache, logs and models live under here.
+  data_dir: "./data"
+  max_parallel_heavy_jobs: 1
+  performance_mode: "balanced"  # battery | balanced | performance
+
+storage:
+  projects_dir: "./data/projects"
+  cache_dir: "./data/cache"
+  models_dir: "./data/models"
+  logs_dir: "./data/logs"
+
+database:
+  # Per-project SQLite database file name.
+  filename: "database.sqlite"
+  wal_mode: true
+
+indexing:
+  supported_extensions:
+    - ".mp4"
+    - ".mov"
+    - ".mkv"
+    - ".webm"
+    - ".avi"
+    - ".m4v"
+    - ".flv"
+  ignore_dirs:
+    - ".cache"
+    - ".tmp"
+    - "exports"
+    - ".git"
+    - "__pycache__"
+    - "node_modules"
+  # Two-stage hashing: skip full SHA-256 when fingerprint unchanged.
+  hash_chunk_size_mb: 8
+
+pipeline:
+  # Frame sampling interval in seconds for vision/quality analysis.
+  frame_sample_interval: 2.0
+  # Audio extraction settings (speech models need 16k mono).
+  audio_sample_rate: 16000
+  audio_channels: 1
+  # Scene detection sensitivity (0-1, lower = more sensitive).
+  scene_threshold: 0.4
+  # Maximum retry attempts per failed stage.
+  max_retries: 3
+  # Thumbnail dimensions.
+  thumbnail_width: 320
+
+proxy:
+  enabled: false
+  width: 1280
+  height: 720
+  codec: "h264"
+  bitrate: "1.5M"
+
+# AI model providers. Each can be swapped without rewriting the app.
+# "none" providers report unavailable cleanly rather than faking results.
+models:
+  speech:
+    provider: "local"      # local | none
+    model: "small"         # tiny | base | small | medium
+    device: "cpu"
+    compute_type: "int8"
+  vision:
+    provider: "none"       # local | none (advanced: off by default on weak HW)
+    model: "qwen2.5-vl-3b"
+  embeddings:
+    provider: "local"      # local (hashing) | none
+    model: "hashing-v1"
+    dimension: 256
+  llm:
+    provider: "none"       # local | none | openai-compatible
+    model: "qwen3-4b"
+
+search:
+  ranking_weights:
+    semantic: 0.45
+    keyword: 0.25
+    visual: 0.15
+    quality: 0.10
+    recency: 0.05
+  result_context_padding: 3.0  # seconds of context around a match
+
+logging:
+  level: "INFO"
+  format: "json"  # json | text

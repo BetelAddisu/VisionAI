@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VisionAI — Video Post-Production Assistant</title>
+  <link rel="stylesheet" href="/static/css/app.css" />
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="logo">▶</span>
+        <span class="brand-name">VisionAI</span>
+      </div>
+      <nav class="nav">
+        <button class="nav-item" data-view="dashboard">Dashboard</button>
+        <button class="nav-item" data-view="projects">Projects</button>
+        <button class="nav-item" data-view="media">Media</button>
+        <button class="nav-item" data-view="search">Search</button>
+        <button class="nav-item" data-view="planner">AI Planner</button>
+        <button class="nav-item" data-view="timeline">Timeline</button>
+        <button class="nav-item" data-view="export">Export</button>
+        <button class="nav-item" data-view="settings">Settings</button>
+      </nav>
+      <div class="sidebar-footer">
+        <div id="active-project" class="active-project">No project selected</div>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <h1 id="view-title">Dashboard</h1>
+        <div id="status-bar" class="status-bar"></div>
+      </header>
+
+      <section id="view" class="view"></section>
+    </main>
+  </div>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
